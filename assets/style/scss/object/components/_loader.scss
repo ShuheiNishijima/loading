@@ -1,0 +1,221 @@
+//--- loader-gauge ---//
+@mixin anime-gauge($delay) {
+  animation-name: loader-gauge;
+  animation-duration: 1s;
+  animation-delay: $delay;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.c-loader-gauge {
+  position: relative;
+  height: 5em;
+  &__bar {
+    position: absolute;
+    width: 0.8em;
+    height: inherit;
+    top: 0;
+    background-color: $accentColor-01;
+    @for $index from 1 through 5 {
+      &:nth-child(#{$index}) {
+        @include anime-gauge(#{(0.1 * $index) - 1}s);
+        left: #{$index - 1}em;
+      }
+    }
+  }
+}
+
+@keyframes loader-gauge {
+  0%   { transform: scaleY(0.4); }
+  40%  { transform: scaleY(1.0); }
+  80%  { transform: scaleY(0.4); }
+  100% { transform: scaleY(0.4); }
+}
+
+//--- loader-cicle ---//
+@mixin anime-circle($time) {
+  animation-name: loader-circle;
+  animation-duration: $time;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.c-loader-circle {
+  position: relative;
+  width: 5em;
+  height: 5em;
+  border: 0.5em solid rgba(#000, 0.2);
+  border-radius: 50%;
+  &::after {
+    @include anime-circle(1s);
+    content: '';
+    display: block;
+    position: absolute;
+    width: inherit;
+    height: inherit;
+    top: 50%;
+    left: 50%;
+    border-style: solid;
+    border-width: 0.5em;
+    border-color: rgba(#000, 0.2) transparent transparent transparent;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  };
+}
+
+@keyframes loader-circle {
+  0%   { transform: translate(-50%, -50%) rotateZ(0deg); }
+  100% { transform: translate(-50%, -50%) rotateZ(360deg); }
+}
+
+//--- loader-spinner ---//
+@mixin anime-spinner($name, $time, $delay, $ease) {
+  animation-name: $name;
+  animation-duration: $time;
+  animation-delay: $delay;
+  animation-timing-function: $ease;
+  animation-iteration-count: infinite;
+}
+
+.c-loader-spinner {
+  @include anime-spinner(loader-rotate, 2.5s, 0s, linear);
+  position: relative;
+  width: 5em;
+  height: 5em;
+  transform: rotateZ(45deg);
+  &__dot {
+    position: absolute;
+    width: inherit;
+    height: inherit;
+    top: 0;
+    left: 0;
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 25%;
+      height: 25%;
+      top: 0;
+      left: 0;
+      background-color: $baseColor-01;
+      border-radius: 50%;
+    }
+    @for $index from 1 through 5 {
+      &:nth-child(#{$index}) {
+        @include anime-spinner(loader-rotate-dot, 2s, #{(0.1 * $index) - 1}s, ease-in-out);
+        &::after {
+          @include anime-spinner(loader-scale, 2s, #{(0.1 * $index) - 1}s, linear);
+        }
+      }
+    }
+  }
+}
+
+@keyframes loader-rotate {
+  0%   { transform: rotateZ(0deg); }
+  100% { transform: rotateZ(360deg); }
+}
+
+@keyframes loader-rotate-dot {
+  0%   { transform: rotateZ(0deg); }
+  80%  { transform: rotateZ(360deg); }
+  100% { transform: rotateZ(360deg); }
+}
+
+@keyframes loader-scale {
+  0%   { transform: scale(1.0); }
+  50%  { transform: scale(0.4); }
+  100% { transform: scale(1.0); }
+}
+
+//--- loader-text ---//
+@mixin anime-text {
+  animation-name: loader-text;
+  animation-duration: 3s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.c-loader-text {
+  display: flex;
+  // overflow: hidden;
+  color: $accentColor-02;
+  font-size: 5rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 0 $mainColor-01;
+  letter-spacing: 0.5rem;
+  >span {
+    @include anime-text;
+  }
+}
+
+@keyframes loader-text {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  30% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  70% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  90% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+//--- loader-cube ---//
+@mixin anime-cube($delay) {
+  animation-name: loader-cube;
+  animation-duration: 1.5s;
+  animation-delay: $delay;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.c-loader-cube {
+  display: flex;
+  flex-wrap: wrap;
+  width: 4.5em;
+  height: 4.5em;
+  &__square {
+    width: 1.5em;
+    height: 1.5em;
+    background-color: $mainColor-01;
+    &:nth-child(7) {
+      @include anime-cube(0s);
+    }
+    &:nth-child(4n) {
+      @include anime-cube(0.15s);
+    }
+    &:nth-child(4n-3) {
+      @include anime-cube(0.3s);
+    }
+    &:nth-child(4n-2) {
+        @include anime-cube(0.45s);
+    }
+    &:nth-child(3) {
+      @include anime-cube(0.6s);
+    }
+  }
+}
+
+@keyframes loader-cube {
+  0%   { transform: scale(1); }
+  20%  { transform: scale(1); }
+  50%  { transform: scale(0); }
+  80%  { transform: scale(1); }
+  100% { transform: scale(1); }
+}

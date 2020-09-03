@@ -1,0 +1,5 @@
+@for $mb from 1 through 10 {
+  .u-mb--#{$mb * 5} {
+    margin-bottom: #{$mb * 5}px !important;
+  }
+}
